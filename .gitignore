@@ -10,3 +10,12 @@ __pycache__/
 
 # Environment variables
 .env
+
+# VS Code
+.vscode/
+
+# Raw datasets
+data/raw/
+
+# Processed data
+data/processed/
