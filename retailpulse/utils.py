@@ -103,3 +103,17 @@ def analyze_missing_values(df, name):
         print("No missing values found")
     else:
         print(missing_summary)
+        
+        
+        
+def check_duplicates(df, name):
+    print("=" * 60)
+    print(f"Dataset: {name}")
+    print("=" * 60)
+
+    duplicate_count = df.duplicated().sum()
+
+    print(f"Duplicate Rows: {duplicate_count}")
+
+    if duplicate_count > 0:
+        display(df[df.duplicated()].head())        
