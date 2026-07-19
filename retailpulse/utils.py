@@ -117,3 +117,66 @@ def check_duplicates(df, name):
 
     if duplicate_count > 0:
         display(df[df.duplicated()].head())        
+        
+        
+        
+import matplotlib.pyplot as plt
+
+
+def analyze_outliers(df, column):
+    """
+    Analyze outliers in a numerical column using the IQR method.
+    """
+
+    # Quartiles
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+
+    # Interquartile Range
+    IQR = Q3 - Q1
+
+    # Bounds
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    # Outliers
+    outliers = df[
+        (df[column] < lower_bound) |
+        (df[column] > upper_bound)
+    ]
+
+    print(f"\n----- {column.upper()} -----")
+    print(f"Q1: {Q1:.2f}")
+    print(f"Q3: {Q3:.2f}")
+    print(f"IQR: {IQR:.2f}")
+    print(f"Lower Bound: {lower_bound:.2f}")
+    print(f"Upper Bound: {upper_bound:.2f}")
+    print(f"Number of Outliers: {len(outliers)}")
+    print(f"Percentage: {(len(outliers)/len(df))*100:.2f}%")
+
+    display(outliers.nlargest(10, column))
+
+    plt.figure(figsize=(8, 4))
+    df.boxplot(column=column)
+    plt.title(f"Box Plot of {column}")
+    plt.ylabel(column)
+    plt.show()      
+    
+    
+
+def validate_foreign_keys(child_df, child_key, parent_df, parent_key):
+    """
+    Validate that all foreign key values exist in the parent table.
+    """
+
+    # Find records with missing foreign keys
+    invalid_records = child_df[
+        ~child_df[child_key].isin(parent_df[parent_key])
+    ]
+
+    # Display results
+    if invalid_records.empty:
+        print(f" All '{child_key}' values exist in '{parent_key}'.")
+    else:
+        print(f" Found {len(invalid_records)} invalid records.")
+        display(invalid_records)
