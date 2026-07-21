@@ -29,6 +29,62 @@ def load_datasets():
         sellers,
         categories,
     )
+    
+    
+
+def load_processed_datasets():
+    """
+    Load all cleaned Olist datasets.
+    """
+
+    data_path = Path("../data/processed")
+
+    orders = pd.read_csv(
+        data_path / "orders.csv",
+        parse_dates=[
+            "order_purchase_timestamp",
+            "order_approved_at",
+            "order_delivered_carrier_date",
+            "order_delivered_customer_date",
+            "order_estimated_delivery_date",
+        ],
+    )
+
+    customers = pd.read_csv(data_path / "customers.csv")
+    geolocation = pd.read_csv(data_path / "geolocation.csv")
+
+    items = pd.read_csv(
+        data_path / "items.csv",
+        parse_dates=["shipping_limit_date"],
+    )
+
+    payments = pd.read_csv(data_path / "payments.csv")
+
+    reviews = pd.read_csv(
+        data_path / "reviews.csv",
+        parse_dates=[
+            "review_creation_date",
+            "review_answer_timestamp",
+        ],
+    )
+
+    products = pd.read_csv(data_path / "products.csv")
+    sellers = pd.read_csv(data_path / "sellers.csv")
+    categories = pd.read_csv(data_path / "translation.csv")
+
+    return (
+        orders,
+        customers,
+        geolocation,
+        items,
+        payments,
+        reviews,
+        products,
+        sellers,
+        categories,
+    )
+
+
 
 
 def explore_dataframe(df, name):
